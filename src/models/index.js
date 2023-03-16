@@ -40,7 +40,7 @@ const dealsTable = dealsModel(sequelize, DataTypes);
 
 //relations
 userTable.hasMany(claimedDealsTable); // user many claimedDeals
-userTable.hasMany(dealsTable);
+// userTable.hasMany(dealsTable);
 dealsTable.hasMany(claimedDealsTable);
 claimedDealsTable.belongsTo(userTable); // claimedDeals one user
 claimedDealsTable.belongsTo(dealsTable); 

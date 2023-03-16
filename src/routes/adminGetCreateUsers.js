@@ -16,9 +16,8 @@ usersRouter.delete("/admin/deletUser", bearer, handleDelete);
 async function handleGetAlls(req, res) {
   try {
     if(req.user.role === 'admin') {
-      const userRecords = await allUsers.read();
-      const list = userRecords.map(user => user.username);
-      res.status(200).json(list);
+      const userRecords = await users.findAll();
+      res.status(200).json(userRecords);
     } else {
       res.status(404).send("Access denied");
     }
@@ -37,10 +36,10 @@ async function handleDelete(req, res) {
   try {
     
     if ( role === "admin") {
-      const deletes = await users.destroy({ where: { id: userIds }});
-      res.status(204).send("Deleted successfully");
+      const deletes = await users.destroy({ where: { id:  userIds }});
+      return res.status(204).send("Deleted successfully");
     } else {
-      res.status(404).send("Access denied");
+      return res.status(404).send("Access denied");
     }
   } catch (err) {
     res.status(404).send(err);
@@ -49,7 +48,7 @@ async function handleDelete(req, res) {
 ////////////////////Admin Add new user//////
 async function handleAddUser(req, res) {
   try {
- 
+    console.log(req)
     if(req.user.role === 'admin') {
       const obj =req.body
     const record = await users.create(obj);

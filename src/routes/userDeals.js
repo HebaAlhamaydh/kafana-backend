@@ -8,7 +8,7 @@ const  {deals} = require("../models/index");
 const bearer = require("../middlewares/bearerAuth");
 
 
-router.get("/deal", bearer, handleGetAll);
+router.get("/deal",  handleGetAll);
 // router.get("/deal/:id", bearer, handleGetOne);
 // router.put("/deal/:id", bearer, handleUpdate);
 // router.delete("/deal/:id", bearer, handleDelete);

@@ -1,6 +1,6 @@
 "use strict";
 
-const { claimedDeals } = require("../models/index");
+const { claimedDeals, deals } = require("../models/index");
 const express = require("express");
 const userclaimedDealsRouter = express.Router();
 const bearer = require("../middlewares/bearerAuth");
@@ -11,12 +11,24 @@ userclaimedDealsRouter.get("/userClaimedDeals", bearer, handleUserAllClaimedDeal
 userclaimedDealsRouter.delete("/userdeleteClaimedDeals/:id", bearer, handelDeleteRequest);
 
 
-////user claimed deals
+////user claimed deals send request
 async function handleUserClaimedDeals(req, res) {
   const tokenId = req.user.id;
   const obj = req.body;
-      let newRecord = await claimedDeals.create(obj);
-      res.status(201).json(newRecord);
+  let activeRecords = await deals.findAll({
+    where: [
+      { status: "Active" },
+    ],
+  });
+ console.log(activeRecords);
+  if(activeRecords  ){
+    let newRecord = await claimedDeals.create(obj);
+    res.status(201).json(newRecord);
+  }
+  else {
+    res.status(404).send("No Active Deals");
+  }
+    
 }
   
 // delete request claim deal from user
@@ -31,7 +43,7 @@ async function handelDeleteRequest(req, res) {
  
 }
 
-//user  can read his all claim deal requests
+//user  can read his claim deal requests
 async function handleUserAllClaimedDeals(req, res) {
   const token = req.user.id;
 

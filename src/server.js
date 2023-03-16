@@ -15,6 +15,8 @@ const claimedDeals=require('./routes/adminClaimedDeals')
 const deals=require('./routes/userDeals')
 const statusDeals=require('./routes/adminDeals')
 const userClaimedDeals=require('./routes/userClaimedDeals')
+const adminStatusRouter=require('./routes/adminUpdateStatus')
+const profileUserRouter=require('./routes/userProfile')
 
 // const v1Routes=require("./routes/v1");
 // const v2Router=require("./routes/model");
@@ -36,6 +38,8 @@ app.use(deals)
 app.use(claimedDeals)
 app.use(statusDeals)
 app.use(userClaimedDeals)
+app.use(adminStatusRouter)
+app.use(profileUserRouter)
 // app.use('/v2',v2Router);
 // app.use('/v1',v1Routes);
 

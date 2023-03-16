@@ -1,18 +1,15 @@
 "use strict";
 
-const { claimedDeals, users } = require("../models/index");
+const { claimedDeals} = require("../models/index");
 const express = require("express");
 const claimedDealsRouter = express.Router();
 const bearer = require("../middlewares/bearerAuth");
 
 
 // // for admin
-claimedDealsRouter.get("/admin/allClaimedDeals", bearer, handleAllClaimedDeals);
+claimedDealsRouter.get("/admin/allClaimedDeals", bearer,handleAllClaimedDeals);
 /////Admin search for claimed deals  by user id
-claimedDealsRouter.post("/admin/byUserId", bearer, handleAllClaimedDealsByUserId);
-
-
-
+claimedDealsRouter.get("/admin/byUserId/:id", bearer, handleAllClaimedDealsByUserId);
 
 // admin read all claimed deals 
 
@@ -28,11 +25,12 @@ async function handleAllClaimedDeals(req, res) {
 
 // for Admin get claimed deals by userid
 async function handleAllClaimedDealsByUserId(req, res) {
+  const {id} = req.params;
+  // const {id} = req.body.user_id;
   try {
     if(req.user.role === 'admin') {
-      const userId = req.body.userId;
-   
-    const users = await claimedDeals.findOne({where: {user_id: userId}});
+     
+    const users = await claimedDeals.findAll({where: {user_id: id}});
     res.status(201).json(users);
   }else {
     res.status(404).send("Access denied");
